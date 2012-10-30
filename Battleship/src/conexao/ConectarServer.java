@@ -31,6 +31,7 @@ public class ConectarServer {
 					"Info ...", JOptionPane.ERROR_MESSAGE);
 		}
 		new Thread(new Escuta()).start();
+		 
 	}
 
 	public static void enviar(String texto) {

@@ -19,7 +19,7 @@ public class ServerApp {
 
 	public class Server {
 		private Socket socket;
-		private Set<PrintWriter> printWriter; // = new HashSet<PrintWriter>();
+		private Set<PrintWriter> printWriter;
 
 		public Server() {
 

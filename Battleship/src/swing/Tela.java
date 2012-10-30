@@ -68,13 +68,15 @@ public class Tela extends JFrame {
 
 		item = new JMenuItem("Sair");
 		item.addActionListener(new AbstractAction() {
+			 
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(null, "Deseja sair do jogo?") == 0) {
-					if (JOptionPane.showConfirmDialog(null, "Tem certeza??") == 0) {
-						System.exit(0);
-					}
+					dispose();
+//					if (JOptionPane.showConfirmDialog(null, "Tem certeza??") == 0) {
+//						System.exit(0);
+//					}
 				}
 			}
 		});
