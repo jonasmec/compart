@@ -9,11 +9,11 @@ public class AppServidor {
 	private static final int PORTA = 5000;
 
 	public static void main(String[] args) {
-		
+
 		int porta = (args.length == 0 ? PORTA : Integer.parseInt(args[0]));
 
 		ServerSocket conexao = null;
-		
+
 		try {
 			conexao = new ServerSocket(porta);
 

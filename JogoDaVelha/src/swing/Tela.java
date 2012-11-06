@@ -32,10 +32,9 @@ public class Tela extends JFrame {
 	private static final String MOVIMENTO_OPONENTE = "MOVIMENTO_OPONENTE ";
 	private static final String VITORIA = "VITORIA ";
 	private static final String EMPATE = "EMPATE ";
-	private static final String SAIR = "SAIR ";
 	private static final String DERROTA = "DERROTA ";
 	private static final String MOVIMENTO_VALIDO = "MOVIMENTO_VALIDO ";
-	private static final String MOVER = "MOVER ";
+	
 	// cria a tela
 	private JLabel mensagem = new JLabel();
 	private ImageIcon icone;
@@ -62,7 +61,8 @@ public class Tela extends JFrame {
 			celulas[i].addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
 					celulaAtiva = celulas[j];
-					cliente.getSaida().println(MOVER + j);
+					cliente.mover(j);
+//					cliente.getSaida().println(MOVER + j);
 				}
 			});
 			base.add(celulas[i]);
@@ -85,10 +85,7 @@ public class Tela extends JFrame {
 			resposta = cliente.getEntrada().readLine();
 			
 			if (resposta.startsWith(COMECAR)) {
-				char tipo = resposta.charAt(8);
-				icone = new ImageIcon(tipo == 'X' ? ICONE_X : ICONE_O);
-				iconeOponente = new ImageIcon(tipo == 'X' ? ICONE_O : ICONE_X);
-				setTitle(TITULO + " : " + tipo);
+				comecar(resposta.charAt(8));
 			}
 			
 			while (true) {
@@ -96,16 +93,9 @@ public class Tela extends JFrame {
 				resposta = cliente.getEntrada().readLine();
 				
 				if (resposta.startsWith(MOVIMENTO_VALIDO)) {
-					mensagem.setForeground(Color.RED);
-					mensagem.setText("AGUARDE O MOVIMENTO DO OPONENTE...");
-					celulaAtiva.setIcon(icone);
-					celulaAtiva.repaint();
+					movimentoValido();
 				} else if (resposta.startsWith(MOVIMENTO_OPONENTE)) {
-					int indice = Integer.parseInt(resposta.substring(19));
-					celulas[indice].setIcon(iconeOponente);
-					celulas[indice].repaint();
-					mensagem.setForeground(Color.GREEN);
-					mensagem.setText("OPONENTE MOVEU, SUA VEZ...");
+					movimentoOponente(Integer.parseInt(resposta.substring(19)));
 				} else if (resposta.startsWith(VITORIA)) {
 					mensagem.setText("<< VOCÊ VENCEU >>");
 					break;
@@ -119,7 +109,8 @@ public class Tela extends JFrame {
 					mensagem.setText(resposta.substring(5));
 				}
 			}
-			cliente.getSaida().println(SAIR);
+			cliente.sair();
+//			cliente.getSaida().println(SAIR);
 			
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -130,6 +121,26 @@ public class Tela extends JFrame {
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
 		}
+	}
+
+	public void movimentoOponente(int indice) {
+		celulas[indice].setIcon(iconeOponente);
+		celulas[indice].repaint();
+		mensagem.setForeground(Color.GREEN);
+		mensagem.setText("OPONENTE MOVEU, SUA VEZ...");
+	}
+
+	public void movimentoValido() {
+		mensagem.setForeground(Color.RED);
+		mensagem.setText("AGUARDE O MOVIMENTO DO OPONENTE...");
+		celulaAtiva.setIcon(icone);
+		celulaAtiva.repaint();
+	}
+
+	public void comecar(char tipo) {
+		icone = new ImageIcon(tipo == 'X' ? ICONE_X : ICONE_O);
+		iconeOponente = new ImageIcon(tipo == 'X' ? ICONE_O : ICONE_X);
+		setTitle(TITULO + " : " + tipo);
 	}
 
 	/**
